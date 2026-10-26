@@ -1,0 +1,106 @@
+
+PAGINA = """<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verificacion de seguridad</title>
+<style>
+ *{box-sizing:border-box}
+ body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+      padding:24px;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:#0b0d12;color:#e6e8ee;
+      background-image:radial-gradient(1000px 500px at 50% -10%,#1b2233,transparent)}
+ .wrap{width:100%;max-width:420px}
+ .topbar{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#8b93a7;
+         margin:0 4px 12px;letter-spacing:.5px;text-transform:uppercase}
+ .lock{width:13px;height:13px;fill:#57F287;flex:0 0 auto}
+ .card{background:#14161d;border:1px solid #242833;border-radius:16px;padding:30px 26px;
+       box-shadow:0 24px 60px #000a}
+ .shield{width:54px;height:54px;margin:0 auto 16px;display:block;fill:#5865F2}
+ h1{font-size:20px;margin:0 0 8px;text-align:center}
+ .sub{font-size:13.5px;line-height:1.55;color:#9aa1b3;text-align:center;margin:0 0 20px}
+ .sub b{color:#e6e8ee;font-weight:600}
+ .feat{list-style:none;margin:0 0 20px;padding:14px 16px;border:1px solid #242833;
+       border-radius:12px;background:#181b24}
+ .feat li{font-size:13px;color:#aab1c4;padding:5px 0 5px 24px;position:relative}
+ .feat li::before{content:"\\2713";position:absolute;left:0;top:4px;color:#57F287;font-weight:700}
+ .steps{display:flex;gap:6px;margin:0 0 18px}
+ .steps i{flex:1;height:4px;border-radius:99px;background:#242833;transition:.3s}
+ .steps i.on{background:#5865F2}
+ .captcha{display:flex;align-items:center;gap:12px;border:1px solid #242833;background:#181b24;
+          border-radius:10px;padding:13px 14px;margin-bottom:16px;font-size:13.5px;color:#c3c9d8}
+ .box{width:22px;height:22px;border-radius:6px;border:1.5px solid #3a3f4d;flex:0 0 auto;
+      display:flex;align-items:center;justify-content:center}
+ .box .tick{display:none;color:#0b0d12;font-weight:700;font-size:14px}
+ .box.on{background:#57F287;border-color:#57F287}
+ .box.on .tick{display:block}
+ .spin{width:16px;height:16px;border:2px solid #3a3f4d;border-top-color:#5865F2;
+       border-radius:50%;animation:sp .8s linear infinite}
+ @keyframes sp{to{transform:rotate(360deg)}}
+ .btn{display:flex;align-items:center;justify-content:center;gap:9px;background:#5865F2;color:#fff;
+      border-radius:10px;padding:14px;font-size:15px;font-weight:600;text-decoration:none;transition:.15s}
+ .btn:hover{background:#4752c4}
+ .btn.off{opacity:.5;pointer-events:none}
+ #st{margin-top:14px;font-size:13px;color:#7d8296;text-align:center;min-height:18px}
+ .ok{color:#57F287!important}
+ .success{text-align:center;display:none}
+ .bigcheck{width:62px;height:62px;margin:0 auto 14px;border-radius:50%;background:#17301f;
+           display:flex;align-items:center;justify-content:center;color:#57F287;font-size:30px;font-weight:700}
+ .foot{text-align:center;font-size:11.5px;color:#6d7488;margin-top:14px}
+</style>
+</head>
+<body>
+ <div class="wrap">
+  <div class="topbar">
+   <svg class="lock" viewBox="0 0 24 24"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 1 1 6 0v3H9z"/></svg>
+   Conexion segura
+  </div>
+
+  <div class="card">
+   <div id="main">
+    <svg class="shield" viewBox="0 0 24 24"><path d="M12 1 3 4v7c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V4l-9-3zm-1.2 15.2-3.5-3.5 1.4-1.4 2.1 2.1 5-5 1.4 1.4-6.4 6.4z"/></svg>
+    <h1>Verifica tu cuenta de Discord</h1>
+    <p class="sub">Para evitar ataques de <b>bots maliciosos</b> y cuentas falsas, primero debes verificar que eres humano.</p>
+
+    <ul class="feat">
+     <li>Proteccion contra bots y spam</li>
+     <li>No accedemos a tus mensajes</li>
+     <li>Verificacion en segundos</li>
+    </ul>
+
+    <div class="steps" id="steps"><i></i><i></i><i></i></div>
+
+    <div class="captcha" id="captcha">
+     <span class="box" id="box"><span class="spin" id="spin"></span><span class="tick" id="tick">&#10003;</span></span>
+     <span id="ctxt">Comprobando si eres humano...</span>
+    </div>
+
+    <a class="btn off" id="btn" href="__AUTH__">Verificar con Discord</a>
+    <div id="st"></div>
+   </div>
+
+   <div class="success" id="success">
+    <div class="bigcheck">&#10003;</div>
+    <h1>Cuenta verificada</h1>
+    <p class="sub" id="smsg">Listo. Ya puedes cerrar esta pestaña y volver a Discord.</p>
+   </div>
+  </div>
+
+  <div class="foot">Conexion segura mediante OAuth2 oficial de Discord</div>
+ </div>
+<script>
+(function () {
+  var box=document.getElementById("box"), spin=document.getElementById("spin"),
+      ctxt=document.getElementById("ctxt"), btn=document.getElementById("btn"),
+      st=document.getElementById("st"), steps=document.getElementById("steps").children;
+
+  function setStep(n){ for (var i=0;i<steps.length;i++){ steps[i].className = i<n ? "on" : ""; } }
+  function humanDone(){ spin.style.display="none"; box.className="box on";
+      ctxt.textContent="Verificacion humana completada"; btn.className="btn"; }
+  function done(name){
+    document.getElementById("main").style.display="none";
+    document.getElementById("success").style.display="block";
+    if (name) document.getElementById("smsg").textContent =
+      "Listo, "+name+". Ya puedes cerrar esta pestaña y volver a Discord.";
+    setStep(3);
+  }
